@@ -14,8 +14,8 @@ const REPERTOIRE = {
       moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Bd2 Bxd2+ Nbxd2 d5 exd5 Nxd5 Qb3 Nce7 O-O O-O Rfe1 c6",
     },
     {
-      name: "이탈리안 게임 - 투 나이츠 (3...Nf6)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 d3 Bc5 c3 d6 O-O O-O Re1 a6",
+      name: "투 나이츠 - 나이트 어택 (4.Ng5, 5...Na5 시고린 갬빗)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Na5 Bb5+ c6 dxc6 bxc6 Be2 h6 Nf3 e4 Ne5",
     },
     {
       name: "이탈리안 게임 - 헝가리안 디펜스 (3...Be7)",

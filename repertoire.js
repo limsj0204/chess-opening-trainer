@@ -6,8 +6,12 @@
 const REPERTOIRE = {
   white: [
     {
-      name: "이탈리안 게임 - 지오코 피아노 (3...Bc5)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d3 d6 O-O O-O Re1 a6 a4 Ba7",
+      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7.Nc3)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Nc3 Nxe4 O-O Bxc3 d5 Bf6 Re1 Ne7 Rxe4 d6 Bg5 Bxg5 Nxg5 h6",
+    },
+    {
+      name: "이탈리안 - 지오코 피아노 5.d4 조용한 라인 (7.Bd2)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Bd2 Bxd2+ Nbxd2 d5 exd5 Nxd5 Qb3 Nce7 O-O O-O Rfe1 c6",
     },
     {
       name: "이탈리안 게임 - 투 나이츠 (3...Nf6)",
@@ -21,12 +25,16 @@ const REPERTOIRE = {
 
   black: [
     {
-      name: "카로칸 - 클래시컬 (3.Nc3)",
-      moves: "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 h4 h6 Nf3 Nd7 h5 Bh7 Bd3 Bxd3 Qxd3 e6",
+      name: "카로칸 - 타르타코워 (3.Nc3, 6.Bc4 체크 라인)",
+      moves: "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 Bc4 Qe7+ Qe2 Be6",
     },
     {
-      name: "카로칸 - 클래시컬 (3.Nd2 이적)",
-      moves: "e4 c6 d4 d5 Nd2 dxe4 Nxe4 Bf5 Ng3 Bg6 h4 h6 Nf3 Nd7 h5 Bh7 Bd3 Bxd3 Qxd3 e6",
+      name: "카로칸 - 타르타코워 (3.Nd2 이적, 6.Bc4 체크 라인)",
+      moves: "e4 c6 d4 d5 Nd2 dxe4 Nxe4 Nf6 Nxf6+ exf6 Bc4 Qe7+ Qe2 Be6",
+    },
+    {
+      name: "카로칸 - 타르타코워 (6.c3 조용한 전개)",
+      moves: "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 c3 Bd6 Bd3 O-O Nf3 Re8+ Qe2 Bg4",
     },
     {
       name: "카로칸 - 어드밴스 (3.e5)",

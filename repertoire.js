@@ -6,8 +6,20 @@
 const REPERTOIRE = {
   white: [
     {
-      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7.Nc3)",
+      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7.Nc3, 7...Nxe4 60%)",
       moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Nc3 Nxe4 O-O Bxc3 d5 Bf6 Re1 Ne7 Rxe4 d6 Bg5 Bxg5 Nxg5 h6",
+    },
+    {
+      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7...O-O 대안, 14%)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Nc3 O-O O-O Bxc3 bxc3 Nxe4 Qd3 d5 Bb3 Bf5 Qe3",
+    },
+    {
+      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7...Bxc3+ 대안, 13%)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Nc3 Bxc3+ bxc3 Nxe4 O-O d5 Bd3 O-O Qc2 Bf5 Re1",
+    },
+    {
+      name: "이탈리안 - 지오코 피아노 5.d4 (6...Bb6 대안, 15%)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb6 e5 Ne4 O-O O-O Re1 d5 exd6 Nxd6 Bb3 Bg4 Be3",
     },
     {
       name: "이탈리안 - 지오코 피아노 5.d4 조용한 라인 (7.Bd2, 7...Bxd2+)",
@@ -77,8 +89,16 @@ const REPERTOIRE = {
       moves: "e4 c6 d4 d5 exd5 cxd5 Nf3 Nc6 Bb5 Bg4 O-O e6 h3 Bxf3 Qxf3 Nf6 Bg5 Be7 Nc3 O-O",
     },
     {
-      name: "카로칸 - 파노프-보트비닉 어택 (3.exd5 cxd5 4.c4)",
+      name: "카로칸 - 익스체인지 (3.exd5, 4.Nc3, 18%)",
+      moves: "e4 c6 d4 d5 exd5 cxd5 Nc3 Nf6 Nf3 Bg4 Be2 e6 O-O Nc6 h3 Bh5",
+    },
+    {
+      name: "카로칸 - 파노프-보트비닉 어택 (5...e6, 31%)",
       moves: "e4 c6 d4 d5 exd5 cxd5 c4 Nf6 Nc3 e6 Nf3 Be7 cxd5 Nxd5 Bd3 Nc6 O-O O-O Re1 Bf6",
+    },
+    {
+      name: "카로칸 - 파노프-보트비닉 어택 (5...Nc6, 실전 최다 36%)",
+      moves: "e4 c6 d4 d5 exd5 cxd5 c4 Nf6 Nc3 Nc6 Nf3 Bg4 cxd5 Nxd5",
     },
   ],
 };

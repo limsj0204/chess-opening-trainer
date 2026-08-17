@@ -33,6 +33,10 @@ const REPERTOIRE = {
       name: "이탈리안 게임 - 헝가리안 디펜스 (3...Be7)",
       moves: "e4 e5 Nf3 Nc6 Bc4 Be7 d3 Nf6 c3 d6 O-O O-O Re1 a6",
     },
+    {
+      name: "이탈리안 - 3...h6 대응 (실전 3위 응수, 14.6%)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 h6 d4 exd4 Nxd4 Nxd4 Qxd4 d6 O-O Nf6 e5 dxe5 Qxe5+",
+    },
   ],
 
   black: [
@@ -49,8 +53,16 @@ const REPERTOIRE = {
       moves: "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 c3 Bd6 Bd3 O-O Nf3 Re8+ Qe2 Bg4",
     },
     {
+      name: "카로칸 - 타르타코워 (6.Nf3, 실전 최다 응수 44%)",
+      moves: "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 Nf3 Bd6 Bd3 O-O O-O Bg4 h3 Bh5",
+    },
+    {
       name: "카로칸 - 어드밴스 (3.e5, 4.Nf3 숏 시스템)",
       moves: "e4 c6 d4 d5 e5 Bf5 Nf3 e6 Be2 c5 O-O Nc6",
+    },
+    {
+      name: "카로칸 - 어드밴스 (3.e5, 4.Bd3 비숍 교환, 실전 2위 22%)",
+      moves: "e4 c6 d4 d5 e5 Bf5 Bd3 Bxd3 Qxd3 e6 Nf3 c5 c3 Nc6 O-O Qb6",
     },
     {
       name: "카로칸 - 어드밴스 (3.e5, 4.g4 베이오넷 어택)",
@@ -59,6 +71,10 @@ const REPERTOIRE = {
     {
       name: "카로칸 - 익스체인지 (3.exd5, 4.Bd3)",
       moves: "e4 c6 d4 d5 exd5 cxd5 Bd3 Nc6 c3 Nf6 Bf4 Bg4",
+    },
+    {
+      name: "카로칸 - 익스체인지 (3.exd5, 4.Nf3, 실전 최다 응수 28%)",
+      moves: "e4 c6 d4 d5 exd5 cxd5 Nf3 Nc6 Bb5 Bg4 O-O e6 h3 Bxf3 Qxf3 Nf6 Bg5 Be7 Nc3 O-O",
     },
     {
       name: "카로칸 - 파노프-보트비닉 어택 (3.exd5 cxd5 4.c4)",

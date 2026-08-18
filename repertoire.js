@@ -15,7 +15,7 @@ const REPERTOIRE = {
     },
     {
       name: "투 나이츠 - 나이트 어택 (4.Ng5, 5...Nd4 프리츠 변형)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nd4 c3 b5 Bf1 Nxd5 cxd4 Qxg5 Bxb5",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nd4 c3 b5 Bf1 Nxd5 cxd4 Qxg5 Bxb5+",
     },
     {
       name: "투 나이츠 - 프라이드 리버 (7...Ke6, 35%)",
@@ -54,7 +54,7 @@ const REPERTOIRE = {
     },
     {
       name: "카로칸 - 타르타코워 (6.c3 조용한 전개)",
-      moves: "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 c3 Bd6 Bd3 O-O Nf3 Re8+ Qe2 Bg4",
+      moves: "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 c3 Bd6 Bd3 O-O Ne2 Re8 O-O Bg4",
     },
     {
       name: "카로칸 - 타르타코워 (6.Nf3, 실전 최다 응수 44%)",

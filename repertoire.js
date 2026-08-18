@@ -76,5 +76,17 @@ const REPERTOIRE = {
       name: "카로칸 - 파노프-보트비닉 어택 (5...e6)",
       moves: "e4 c6 d4 d5 exd5 cxd5 c4 Nf6 Nc3 e6 Nf3 Be7 cxd5 Nxd5 Bd3 Nc6 O-O O-O Re1 Bf6",
     },
+    {
+      name: "카로칸 - 2.Nf3 대응 (3.exd5, 실전 최다 62%)",
+      moves: "e4 c6 Nf3 d5 exd5 cxd5 d4 Nc6 Bb5 Bg4 O-O e6 h3 Bxf3 Qxf3 Nf6",
+    },
+    {
+      name: "카로칸 - 2.Nf3 대응 (3.e5, 실전 2위 21%)",
+      moves: "e4 c6 Nf3 d5 e5 Bg4 d4 e6 Be2 c5 c3 Nc6 O-O Nge7 h3 Bxf3",
+    },
+    {
+      name: "카로칸 - 2.Nf3 대응 (3.Nc3, 10%)",
+      moves: "e4 c6 Nf3 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 Bc4 Bd6 O-O O-O d4 Bg4",
+    },
   ],
 };

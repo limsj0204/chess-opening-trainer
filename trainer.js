@@ -21,7 +21,19 @@ let selectedSquare = null;  // 탭-탭(터치) 방식으로 선택된 출발 칸
 const ANSWER_MODE_KEY = "openingTrainerAnswerModeV1";
 let answerMode = localStorage.getItem(ANSWER_MODE_KEY) || "reveal"; // 'reveal' | 'retry'
 
+const LINENAME_KEY = "openingTrainerLineNameV1";
+let showLineName = localStorage.getItem(LINENAME_KEY) !== "0"; // 기본 켜짐
+
 let pendingExplanation = null; // 현재 지점에 설명이 있으면 그 텍스트, 없으면 null
+
+function updateLineNameDisplay() {
+  const el = document.getElementById("line-name");
+  if (!currentLine) {
+    el.textContent = "라인을 시작하려면 위에서 모드를 선택하세요.";
+    return;
+  }
+  el.textContent = showLineName ? currentLine.name : "라인 진행 중 (이름 숨김 - 실전 모드)";
+}
 
 // ply(1-based)에 해당하는 설명이 있으면 "설명 보기" 버튼을 띄우고, 없으면 숨김
 function showExplanationIfAny(ply) {
@@ -128,7 +140,7 @@ function pickNextLine() {
   document.getElementById("explain-btn").style.display = "none";
   document.getElementById("explain-box").style.display = "none";
   pendingExplanation = null;
-  document.getElementById("line-name").textContent = currentLine.name;
+  updateLineNameDisplay();
   setMessage(
     result.freePractice
       ? "오늘 복습할 라인이 없어요. 자유 연습 중이에요."
@@ -388,6 +400,14 @@ document.addEventListener("DOMContentLoaded", () => {
     box.textContent = pendingExplanation || "";
     box.style.display = "block";
     document.getElementById("explain-btn").style.display = "none";
+  });
+
+  const lineNameToggle = document.getElementById("linename-toggle");
+  lineNameToggle.checked = showLineName;
+  lineNameToggle.addEventListener("change", (e) => {
+    showLineName = e.target.checked;
+    localStorage.setItem(LINENAME_KEY, showLineName ? "1" : "0");
+    updateLineNameDisplay();
   });
 
   document.querySelectorAll('input[name="answer-mode"]').forEach((el) => {

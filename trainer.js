@@ -21,13 +21,28 @@ let selectedSquare = null;  // 탭-탭(터치) 방식으로 선택된 출발 칸
 const ANSWER_MODE_KEY = "openingTrainerAnswerModeV1";
 let answerMode = localStorage.getItem(ANSWER_MODE_KEY) || "reveal"; // 'reveal' | 'retry'
 
+const EXPLAIN_KEY = "openingTrainerExplainV1";
+let showExplanations = localStorage.getItem(EXPLAIN_KEY) === "1";
+
+// ply(1-based)에 해당하는 설명이 있으면 보여주고, 없거나 꺼져있으면 숨김
+function showExplanationIfAny(ply) {
+  const box = document.getElementById("explain-box");
+  const text = currentLine.comments && currentLine.comments[ply];
+  if (showExplanations && text) {
+    box.textContent = text;
+    box.style.display = "block";
+  } else {
+    box.style.display = "none";
+  }
+}
+
 function buildLines() {
   const lines = [];
   REPERTOIRE.white.forEach((l, i) => {
-    lines.push({ id: "white_" + i, color: "white", name: l.name, moves: l.moves.split(" ") });
+    lines.push({ id: "white_" + i, color: "white", name: l.name, moves: l.moves.split(" "), comments: l.comments || {} });
   });
   REPERTOIRE.black.forEach((l, i) => {
-    lines.push({ id: "black_" + i, color: "black", name: l.name, moves: l.moves.split(" ") });
+    lines.push({ id: "black_" + i, color: "black", name: l.name, moves: l.moves.split(" "), comments: l.comments || {} });
   });
   return lines;
 }
@@ -107,6 +122,7 @@ function pickNextLine() {
 
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("show-answer-btn").style.display = "none";
+  document.getElementById("explain-box").style.display = "none";
   document.getElementById("line-name").textContent = currentLine.name;
   setMessage(
     result.freePractice
@@ -141,6 +157,7 @@ function advance() {
     game.move(san);
     board.position(game.fen());
     moveIndex++;
+    showExplanationIfAny(moveIndex);
     advance();
   }, 450);
 }
@@ -196,6 +213,7 @@ function tryUserMove(from, to, opts) {
       game.move(expectedSan);
       board.position(game.fen());
       moveIndex++;
+      showExplanationIfAny(moveIndex);
       setTimeout(advance, 500);
     }, 1200);
     return "wrong";
@@ -205,6 +223,7 @@ function tryUserMove(from, to, opts) {
   awaitingUserMove = false;
   document.getElementById("show-answer-btn").style.display = "none";
   moveIndex++;
+  showExplanationIfAny(moveIndex);
   if (opts.syncBoard) board.position(game.fen());
   setTimeout(advance, 400);
   return "correct";
@@ -223,6 +242,7 @@ function revealAnswer() {
     game.move(expectedSan);
     board.position(game.fen());
     moveIndex++;
+    showExplanationIfAny(moveIndex);
     setTimeout(advance, 500);
   }, 800);
 }
@@ -357,6 +377,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("next-btn").addEventListener("click", pickNextLine);
   document.getElementById("show-answer-btn").addEventListener("click", revealAnswer);
+
+  const explainToggle = document.getElementById("explain-toggle");
+  explainToggle.checked = showExplanations;
+  explainToggle.addEventListener("change", (e) => {
+    showExplanations = e.target.checked;
+    localStorage.setItem(EXPLAIN_KEY, showExplanations ? "1" : "0");
+    if (currentLine && (awaitingUserMove || moveIndex > 0)) {
+      showExplanationIfAny(moveIndex);
+    }
+  });
 
   document.querySelectorAll('input[name="answer-mode"]').forEach((el) => {
     el.checked = el.value === answerMode;

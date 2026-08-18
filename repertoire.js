@@ -18,8 +18,16 @@ const REPERTOIRE = {
       moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nd4 c3 b5 Bf1 Nxd5 cxd4 Qxg5 Bxb5",
     },
     {
-      name: "투 나이츠 - 나이트 어택 (4.Ng5, 5...Nxd5?! 프라이드 리버)",
+      name: "투 나이츠 - 프라이드 리버 (7...Ke6, 35%)",
       moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nxd5 Nxf7 Kxf7 Qf3+ Ke6 Nc3 Nb4",
+    },
+    {
+      name: "투 나이츠 - 프라이드 리버 (7...Ke8, 32%, 체크메이트로 끝남)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nxd5 Nxf7 Kxf7 Qf3+ Ke8 Bxd5 Nd4 Qf7#",
+    },
+    {
+      name: "투 나이츠 - 프라이드 리버 (7...Ke7, 3%, 체크메이트로 끝남)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nxd5 Nxf7 Kxf7 Qf3+ Ke7 Bxd5 Nd4 Qf7+ Kd6 Nc3 Nxc2+ Kd1 Nxa1 Ne4#",
     },
     {
       name: "이탈리안 게임 - 헝가리안 디펜스 (3...Be7)",

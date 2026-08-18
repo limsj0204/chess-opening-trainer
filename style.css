@@ -43,6 +43,38 @@ h1 {
   color: #fff;
 }
 
+#answer-mode-select {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  color: #9aa0b0;
+}
+
+#answer-mode-select label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+#show-answer-btn {
+  margin-top: 10px;
+  margin-right: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #5a4a2a;
+  background: transparent;
+  color: #ffb84a;
+  cursor: pointer;
+}
+
+#show-answer-btn:hover {
+  background: #3a2f1a;
+}
+
 #main {
   display: flex;
   gap: 32px;

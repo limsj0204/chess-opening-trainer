@@ -18,6 +18,9 @@ let awaitingUserMove = false;
 let mistakeMade = false;
 let selectedSquare = null;  // 탭-탭(터치) 방식으로 선택된 출발 칸
 
+const ANSWER_MODE_KEY = "openingTrainerAnswerModeV1";
+let answerMode = localStorage.getItem(ANSWER_MODE_KEY) || "reveal"; // 'reveal' | 'retry'
+
 function buildLines() {
   const lines = [];
   REPERTOIRE.white.forEach((l, i) => {
@@ -103,6 +106,7 @@ function pickNextLine() {
   board.position("start");
 
   document.getElementById("next-btn").style.display = "none";
+  document.getElementById("show-answer-btn").style.display = "none";
   document.getElementById("line-name").textContent = currentLine.name;
   setMessage(
     result.freePractice
@@ -126,6 +130,8 @@ function advance() {
   if (isMyMove(moveIndex)) {
     awaitingUserMove = true;
     setMessage("당신 차례예요. 정확한 수를 두세요.", "info");
+    document.getElementById("show-answer-btn").style.display =
+      answerMode === "retry" ? "inline-block" : "none";
     return;
   }
   // 상대(자동) 수를 살짝 딜레이 후 재생
@@ -175,9 +181,17 @@ function tryUserMove(from, to, opts) {
   if (move.san !== expectedSan) {
     game.undo();
     mistakeMade = true;
+    if (opts.syncBoard) board.position(game.fen());
+
+    if (answerMode === "retry") {
+      // 정답을 알려주지 않고 다시 시도하게 함
+      setMessage("틀렸어요. 다시 시도해보세요.", "wrong");
+      return "wrong";
+    }
+
     setMessage("틀렸어요. 정답: " + expectedSan, "wrong");
     awaitingUserMove = false;
-    if (opts.syncBoard) board.position(game.fen());
+    document.getElementById("show-answer-btn").style.display = "none";
     setTimeout(() => {
       game.move(expectedSan);
       board.position(game.fen());
@@ -189,10 +203,28 @@ function tryUserMove(from, to, opts) {
 
   setMessage("정답!", "correct");
   awaitingUserMove = false;
+  document.getElementById("show-answer-btn").style.display = "none";
   moveIndex++;
   if (opts.syncBoard) board.position(game.fen());
   setTimeout(advance, 400);
   return "correct";
+}
+
+function revealAnswer() {
+  if (!awaitingUserMove) return;
+  const expectedSan = currentLine.moves[moveIndex];
+  mistakeMade = true;
+  setMessage("정답: " + expectedSan, "wrong");
+  awaitingUserMove = false;
+  document.getElementById("show-answer-btn").style.display = "none";
+  clearHighlights();
+  selectedSquare = null;
+  setTimeout(() => {
+    game.move(expectedSan);
+    board.position(game.fen());
+    moveIndex++;
+    setTimeout(advance, 500);
+  }, 800);
 }
 
 // ---- 드래그 방식 (마우스) ----
@@ -324,6 +356,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("next-btn").addEventListener("click", pickNextLine);
+  document.getElementById("show-answer-btn").addEventListener("click", revealAnswer);
+
+  document.querySelectorAll('input[name="answer-mode"]').forEach((el) => {
+    el.checked = el.value === answerMode;
+    el.addEventListener("change", (e) => {
+      answerMode = e.target.value;
+      localStorage.setItem(ANSWER_MODE_KEY, answerMode);
+      if (awaitingUserMove) {
+        document.getElementById("show-answer-btn").style.display =
+          answerMode === "retry" ? "inline-block" : "none";
+      }
+    });
+  });
 
   document.getElementById("reset-btn").addEventListener("click", () => {
     if (confirm("모든 학습 기록을 초기화할까요? 되돌릴 수 없어요.")) {

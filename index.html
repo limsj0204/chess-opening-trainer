@@ -24,7 +24,6 @@
 <div id="answer-mode-select">
   <label><input type="radio" name="answer-mode" value="reveal" /> 틀리면 바로 정답 보여주기</label>
   <label><input type="radio" name="answer-mode" value="retry" /> 맞힐 때까지 다시 시도 (정답 보기 버튼 사용)</label>
-  <label><input type="checkbox" id="explain-toggle" /> 수 설명 보기</label>
 </div>
 
 <div id="main">
@@ -34,6 +33,7 @@
       <div id="line-name">라인을 시작하려면 위에서 모드를 선택하세요.</div>
       <div id="message"></div>
       <div id="explain-box" style="display:none;"></div>
+      <button id="explain-btn" style="display:none;">이 수 설명 보기</button>
       <button id="show-answer-btn" style="display:none;">정답 보기</button>
       <button id="next-btn" style="display:none;">다음 라인 →</button>
     </div>

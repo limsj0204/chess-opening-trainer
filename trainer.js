@@ -21,18 +21,21 @@ let selectedSquare = null;  // 탭-탭(터치) 방식으로 선택된 출발 칸
 const ANSWER_MODE_KEY = "openingTrainerAnswerModeV1";
 let answerMode = localStorage.getItem(ANSWER_MODE_KEY) || "reveal"; // 'reveal' | 'retry'
 
-const EXPLAIN_KEY = "openingTrainerExplainV1";
-let showExplanations = localStorage.getItem(EXPLAIN_KEY) === "1";
+let pendingExplanation = null; // 현재 지점에 설명이 있으면 그 텍스트, 없으면 null
 
-// ply(1-based)에 해당하는 설명이 있으면 보여주고, 없거나 꺼져있으면 숨김
+// ply(1-based)에 해당하는 설명이 있으면 "설명 보기" 버튼을 띄우고, 없으면 숨김
 function showExplanationIfAny(ply) {
+  const btn = document.getElementById("explain-btn");
   const box = document.getElementById("explain-box");
+  box.style.display = "none";
+  box.textContent = "";
   const text = currentLine.comments && currentLine.comments[ply];
-  if (showExplanations && text) {
-    box.textContent = text;
-    box.style.display = "block";
+  if (text) {
+    pendingExplanation = text;
+    btn.style.display = "inline-block";
   } else {
-    box.style.display = "none";
+    pendingExplanation = null;
+    btn.style.display = "none";
   }
 }
 
@@ -122,7 +125,9 @@ function pickNextLine() {
 
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("show-answer-btn").style.display = "none";
+  document.getElementById("explain-btn").style.display = "none";
   document.getElementById("explain-box").style.display = "none";
+  pendingExplanation = null;
   document.getElementById("line-name").textContent = currentLine.name;
   setMessage(
     result.freePractice
@@ -378,14 +383,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("next-btn").addEventListener("click", pickNextLine);
   document.getElementById("show-answer-btn").addEventListener("click", revealAnswer);
 
-  const explainToggle = document.getElementById("explain-toggle");
-  explainToggle.checked = showExplanations;
-  explainToggle.addEventListener("change", (e) => {
-    showExplanations = e.target.checked;
-    localStorage.setItem(EXPLAIN_KEY, showExplanations ? "1" : "0");
-    if (currentLine && (awaitingUserMove || moveIndex > 0)) {
-      showExplanationIfAny(moveIndex);
-    }
+  document.getElementById("explain-btn").addEventListener("click", () => {
+    const box = document.getElementById("explain-box");
+    box.textContent = pendingExplanation || "";
+    box.style.display = "block";
+    document.getElementById("explain-btn").style.display = "none";
   });
 
   document.querySelectorAll('input[name="answer-mode"]').forEach((el) => {

@@ -6,32 +6,8 @@
 const REPERTOIRE = {
   white: [
     {
-      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7.Nc3, 7...Nxe4 60%)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Nc3 Nxe4 O-O Bxc3 d5 Bf6 Re1 Ne7 Rxe4 d6 Bg5 Bxg5 Nxg5 h6",
-    },
-    {
-      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7...O-O 대안, 14%)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Nc3 O-O O-O Bxc3 bxc3 Nxe4 Qd3 d5 Bb3 Bf5 Qe3",
-    },
-    {
-      name: "이탈리안 - 지오코 피아노 5.d4 뫼레르 어택 (7...Bxc3+ 대안, 13%)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Nc3 Bxc3+ bxc3 Nxe4 O-O d5 Bd3 O-O Qc2 Bf5 Re1",
-    },
-    {
-      name: "이탈리안 - 지오코 피아노 5.d4 (6...Bb6 대안, 15%)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb6 e5 Ne4 O-O O-O Re1 d5 exd6 Nxd6 Bb3 Bg4 Be3",
-    },
-    {
       name: "이탈리안 - 지오코 피아노 6.e5 (cxd4 대신, 6...d5 실전 최다 41%)",
       moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 e5 d5 Bb5 Ne4 cxd4 Bb4+ Bd2 Nxd2 Nbxd2 O-O O-O Bg4 Bxc6 bxc6",
-    },
-    {
-      name: "이탈리안 - 지오코 피아노 5.d4 조용한 라인 (7.Bd2, 7...Bxd2+)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Bd2 Bxd2+ Nbxd2 d5 exd5 Nxd5 Qb3 Nce7 O-O O-O Rfe1 c6",
-    },
-    {
-      name: "이탈리안 - 지오코 피아노 5.d4 조용한 라인 (7.Bd2, 7...Nxe4)",
-      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Bd2 Nxe4 Bxb4 Nxb4 Bxf7+ Kxf7 Qb3+ Kf8 Qxb4+ Qe7 Qxe7+ Kxe7",
     },
     {
       name: "투 나이츠 - 나이트 어택 (4.Ng5, 5...Na5 시고린 갬빗)",

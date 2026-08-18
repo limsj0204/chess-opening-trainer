@@ -22,11 +22,15 @@ const REPERTOIRE = {
       moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nxd5 Nxf7 Kxf7 Qf3+ Ke6 Nc3 Nb4",
     },
     {
-      name: "투 나이츠 - 프라이드 리버 (7...Ke8, 32%, 체크메이트로 끝남)",
+      name: "투 나이츠 - 프라이드 리버 (7...Ke8 8...Qf6, 흑의 실전 최선 방어)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nxd5 Nxf7 Kxf7 Qf3+ Ke8 Bxd5 Qf6 Bxc6+ bxc6 Qxf6 gxf6 O-O Ba6 Re1 Bc5 Nc3",
+    },
+    {
+      name: "투 나이츠 - 프라이드 리버 (7...Ke8 8...Nd4?, 흔한 실수 - 체크메이트)",
       moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nxd5 Nxf7 Kxf7 Qf3+ Ke8 Bxd5 Nd4 Qf7#",
     },
     {
-      name: "투 나이츠 - 프라이드 리버 (7...Ke7, 3%, 체크메이트로 끝남)",
+      name: "투 나이츠 - 프라이드 리버 (7...Ke7, 드문 편, 강제는 아님)",
       moves: "e4 e5 Nf3 Nc6 Bc4 Nf6 Ng5 d5 exd5 Nxd5 Nxf7 Kxf7 Qf3+ Ke7 Bxd5 Nd4 Qf7+ Kd6 Nc3 Nxc2+ Kd1 Nxa1 Ne4#",
     },
     {

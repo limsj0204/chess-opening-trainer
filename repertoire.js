@@ -22,6 +22,10 @@ const REPERTOIRE = {
       moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb6 e5 Ne4 O-O O-O Re1 d5 exd6 Nxd6 Bb3 Bg4 Be3",
     },
     {
+      name: "이탈리안 - 지오코 피아노 6.e5 (cxd4 대신, 6...d5 실전 최다 41%)",
+      moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 e5 d5 Bb5 Ne4 cxd4 Bb4+ Bd2 Nxd2 Nbxd2 O-O O-O Bg4 Bxc6 bxc6",
+    },
+    {
       name: "이탈리안 - 지오코 피아노 5.d4 조용한 라인 (7.Bd2, 7...Bxd2+)",
       moves: "e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4 exd4 cxd4 Bb4+ Bd2 Bxd2+ Nbxd2 d5 exd5 Nxd5 Qb3 Nce7 O-O O-O Rfe1 c6",
     },

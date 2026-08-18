@@ -73,12 +73,8 @@ const REPERTOIRE = {
       moves: "e4 c6 d4 d5 exd5 cxd5 Nc3 Nf6 Nf3 Bg4 Be2 e6 O-O Nc6 h3 Bh5",
     },
     {
-      name: "카로칸 - 파노프-보트비닉 어택 (5...e6, 31%)",
+      name: "카로칸 - 파노프-보트비닉 어택 (5...e6)",
       moves: "e4 c6 d4 d5 exd5 cxd5 c4 Nf6 Nc3 e6 Nf3 Be7 cxd5 Nxd5 Bd3 Nc6 O-O O-O Re1 Bf6",
-    },
-    {
-      name: "카로칸 - 파노프-보트비닉 어택 (5...Nc6, 실전 최다 36%)",
-      moves: "e4 c6 d4 d5 exd5 cxd5 c4 Nf6 Nc3 Nc6 Nf3 Bg4 cxd5 Nxd5",
     },
   ],
 };

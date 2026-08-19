@@ -109,6 +109,7 @@ function updateLineNameDisplay() {
 // true를 반환하면 자동 진행을 멈춰야 함 - 안 그러면 설명을 볼 새도 없이 다음 수로 넘어가버림.
 function checkExplanation(ply) {
   const btn = document.getElementById("explain-btn");
+  const skipBtn = document.getElementById("skip-explain-btn");
   const continueBtn = document.getElementById("continue-btn");
   const box = document.getElementById("explain-box");
   box.style.display = "none";
@@ -122,10 +123,12 @@ function checkExplanation(ply) {
   if (combined) {
     pendingExplanation = combined;
     btn.style.display = "inline-block";
+    skipBtn.style.display = "inline-block";
     return true;
   }
   pendingExplanation = null;
   btn.style.display = "none";
+  skipBtn.style.display = "none";
   return false;
 }
 
@@ -216,6 +219,7 @@ function pickNextLine() {
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("show-answer-btn").style.display = "none";
   document.getElementById("explain-btn").style.display = "none";
+  document.getElementById("skip-explain-btn").style.display = "none";
   document.getElementById("continue-btn").style.display = "none";
   document.getElementById("explain-box").style.display = "none";
   pendingExplanation = null;
@@ -485,10 +489,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // 반드시 "계속하기"를 따로 눌러야만 다음 수로 넘어감
   document.getElementById("explain-btn").addEventListener("click", () => {
     document.getElementById("explain-btn").style.display = "none";
+    document.getElementById("skip-explain-btn").style.display = "none";
     const box = document.getElementById("explain-box");
     box.textContent = pendingExplanation || "";
     box.style.display = "block";
     document.getElementById("continue-btn").style.display = "inline-block";
+  });
+
+  document.getElementById("skip-explain-btn").addEventListener("click", () => {
+    document.getElementById("explain-btn").style.display = "none";
+    document.getElementById("skip-explain-btn").style.display = "none";
+    document.getElementById("explain-box").style.display = "none";
+    advance();
   });
 
   document.getElementById("continue-btn").addEventListener("click", () => {

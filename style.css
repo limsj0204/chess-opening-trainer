@@ -102,6 +102,21 @@ h1 {
   background: #1a2f3a;
 }
 
+#skip-explain-btn {
+  margin-top: 10px;
+  margin-right: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: transparent;
+  color: #9aa0b0;
+  cursor: pointer;
+}
+
+#skip-explain-btn:hover {
+  background: #2a2a33;
+}
+
 #continue-btn {
   margin-top: 10px;
   margin-right: 8px;

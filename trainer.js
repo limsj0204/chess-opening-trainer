@@ -139,7 +139,9 @@ function pickNextLine() {
 
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("show-answer-btn").style.display = "none";
-  document.getElementById("explain-btn").style.display = "none";
+  const explainBtnEl = document.getElementById("explain-btn");
+  explainBtnEl.style.display = "none";
+  explainBtnEl.textContent = "이 수 설명 보기";
   document.getElementById("explain-box").style.display = "none";
   pendingExplanation = null;
   updateLineNameDisplay();
@@ -402,12 +404,20 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("show-answer-btn").addEventListener("click", revealAnswer);
 
   document.getElementById("explain-btn").addEventListener("click", () => {
+    const btn = document.getElementById("explain-btn");
     const box = document.getElementById("explain-box");
-    box.textContent = pendingExplanation || "";
-    box.style.display = "block";
-    document.getElementById("explain-btn").style.display = "none";
-    // 설명을 확인했으니 멈춰있던 진행을 재개
-    setTimeout(advance, 300);
+    if (box.style.display === "none") {
+      // 1단계: 설명 보여주기 (자동으로 넘어가지 않고 사용자가 다 읽을 때까지 기다림)
+      box.textContent = pendingExplanation || "";
+      box.style.display = "block";
+      btn.textContent = "계속하기 →";
+    } else {
+      // 2단계: 다 읽었으면 버튼을 눌러야 다음 수로 진행
+      box.style.display = "none";
+      btn.style.display = "none";
+      btn.textContent = "이 수 설명 보기";
+      advance();
+    }
   });
 
   const lineNameToggle = document.getElementById("linename-toggle");

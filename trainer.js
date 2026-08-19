@@ -74,14 +74,19 @@ function recordCorrectAttempt(ply) {
   saveMistakes(m);
 }
 
-// 해당 지점이 "자주 틀리는 지점"이면 안내 문구를, 아니면 null을 반환
+// 해당 지점이 "자주 틀리는 지점"인지 여부 (임계값 이상 틀렸고, 아직 연속 정답 스트릭을 못 채운 경우)
+function isMistakeFlagged(ply) {
+  const m = loadMistakes();
+  const entry = m[mistakeKey(ply)];
+  return !!entry && entry.totalWrong >= MISTAKE_SHOW_THRESHOLD && entry.streak < MISTAKE_CLEAR_STREAK;
+}
+
+// 자주 틀리는 지점일 때 보여줄 안내 문구 (착각했던 수 + 라이트 설명을 함께 붙임)
 function getMistakeNote(ply) {
   const m = loadMistakes();
   const entry = m[mistakeKey(ply)];
-  if (!entry || entry.totalWrong < MISTAKE_SHOW_THRESHOLD || entry.streak >= MISTAKE_CLEAR_STREAK) {
-    return null;
-  }
-  const expected = currentLine.moves[ply - 1];
+  if (!entry) return null;
+
   let topWrong = null;
   let topCount = 0;
   for (const san in entry.wrongCounts) {
@@ -90,10 +95,15 @@ function getMistakeNote(ply) {
       topCount = entry.wrongCounts[san];
     }
   }
+
+  const lightText = currentLine.lightComments && currentLine.lightComments[ply];
+  let header;
   if (topWrong) {
-    return "⚠️ 자주 틀리는 지점: \"" + topWrong + "\"(으)로 착각한 적이 " + topCount + "번 있어요. 정답은 \"" + expected + "\"예요.";
+    header = "⚠️ 자주 틀리는 지점: \"" + topWrong + "\"(으)로 착각한 적이 " + topCount + "번 있어요.";
+  } else {
+    header = "⚠️ 자주 헷갈리는 지점이에요 (" + entry.totalWrong + "번).";
   }
-  return "⚠️ 자주 헷갈리는 지점이에요 (" + entry.totalWrong + "번). 정답은 \"" + expected + "\"예요.";
+  return lightText ? header + "\n" + lightText : header;
 }
 
 function updateLineNameDisplay() {
@@ -116,12 +126,13 @@ function checkExplanation(ply) {
   box.textContent = "";
   continueBtn.style.display = "none";
 
+  // 원래부터 있던 핵심 수 설명은 항상 보여줌.
+  // 라이트 설명(그 나머지 수들)은 이 지점에서 자주 틀렸을 때만 임시로 보여줌.
   const staticText = currentLine.comments && currentLine.comments[ply];
-  const mistakeNote = getMistakeNote(ply);
-  const combined = [mistakeNote, staticText].filter(Boolean).join("\n\n");
+  const text = staticText || (isMistakeFlagged(ply) ? getMistakeNote(ply) : null);
 
-  if (combined) {
-    pendingExplanation = combined;
+  if (text) {
+    pendingExplanation = text;
     btn.style.display = "inline-block";
     skipBtn.style.display = "inline-block";
     return true;
@@ -135,10 +146,10 @@ function checkExplanation(ply) {
 function buildLines() {
   const lines = [];
   REPERTOIRE.white.forEach((l, i) => {
-    lines.push({ id: "white_" + i, color: "white", name: l.name, moves: l.moves.split(" "), comments: l.comments || {} });
+    lines.push({ id: "white_" + i, color: "white", name: l.name, moves: l.moves.split(" "), comments: l.comments || {}, lightComments: l.lightComments || {} });
   });
   REPERTOIRE.black.forEach((l, i) => {
-    lines.push({ id: "black_" + i, color: "black", name: l.name, moves: l.moves.split(" "), comments: l.comments || {} });
+    lines.push({ id: "black_" + i, color: "black", name: l.name, moves: l.moves.split(" "), comments: l.comments || {}, lightComments: l.lightComments || {} });
   });
   return lines;
 }

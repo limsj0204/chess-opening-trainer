@@ -35,8 +35,9 @@ function updateLineNameDisplay() {
   el.textContent = showLineName ? currentLine.name : "라인 진행 중 (이름 숨김 - 실전 모드)";
 }
 
-// ply(1-based)에 해당하는 설명이 있으면 "설명 보기" 버튼을 띄우고, 없으면 숨김
-function showExplanationIfAny(ply) {
+// ply(1-based)에 해당하는 설명이 있으면 "설명 보기" 버튼을 띄우고 true를 반환.
+// true를 반환하면 자동 진행을 멈춰야 함 - 안 그러면 설명을 볼 새도 없이 다음 수로 넘어가버림.
+function checkExplanation(ply) {
   const btn = document.getElementById("explain-btn");
   const box = document.getElementById("explain-box");
   box.style.display = "none";
@@ -45,10 +46,11 @@ function showExplanationIfAny(ply) {
   if (text) {
     pendingExplanation = text;
     btn.style.display = "inline-block";
-  } else {
-    pendingExplanation = null;
-    btn.style.display = "none";
+    return true;
   }
+  pendingExplanation = null;
+  btn.style.display = "none";
+  return false;
 }
 
 function buildLines() {
@@ -174,8 +176,9 @@ function advance() {
     game.move(san);
     board.position(game.fen());
     moveIndex++;
-    showExplanationIfAny(moveIndex);
-    advance();
+    if (!checkExplanation(moveIndex)) {
+      advance();
+    }
   }, 450);
 }
 
@@ -230,8 +233,9 @@ function tryUserMove(from, to, opts) {
       game.move(expectedSan);
       board.position(game.fen());
       moveIndex++;
-      showExplanationIfAny(moveIndex);
-      setTimeout(advance, 500);
+      if (!checkExplanation(moveIndex)) {
+        setTimeout(advance, 500);
+      }
     }, 1200);
     return "wrong";
   }
@@ -240,9 +244,10 @@ function tryUserMove(from, to, opts) {
   awaitingUserMove = false;
   document.getElementById("show-answer-btn").style.display = "none";
   moveIndex++;
-  showExplanationIfAny(moveIndex);
   if (opts.syncBoard) board.position(game.fen());
-  setTimeout(advance, 400);
+  if (!checkExplanation(moveIndex)) {
+    setTimeout(advance, 400);
+  }
   return "correct";
 }
 
@@ -259,8 +264,9 @@ function revealAnswer() {
     game.move(expectedSan);
     board.position(game.fen());
     moveIndex++;
-    showExplanationIfAny(moveIndex);
-    setTimeout(advance, 500);
+    if (!checkExplanation(moveIndex)) {
+      setTimeout(advance, 500);
+    }
   }, 800);
 }
 
@@ -400,6 +406,8 @@ document.addEventListener("DOMContentLoaded", () => {
     box.textContent = pendingExplanation || "";
     box.style.display = "block";
     document.getElementById("explain-btn").style.display = "none";
+    // 설명을 확인했으니 멈춰있던 진행을 재개
+    setTimeout(advance, 300);
   });
 
   const lineNameToggle = document.getElementById("linename-toggle");

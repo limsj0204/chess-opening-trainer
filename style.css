@@ -102,6 +102,21 @@ h1 {
   background: #1a2f3a;
 }
 
+#continue-btn {
+  margin-top: 10px;
+  margin-right: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #2a5a3a;
+  background: transparent;
+  color: #6fd08c;
+  cursor: pointer;
+}
+
+#continue-btn:hover {
+  background: #1a3a24;
+}
+
 #main {
   display: flex;
   gap: 32px;

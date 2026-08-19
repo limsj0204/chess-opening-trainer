@@ -39,9 +39,11 @@ function updateLineNameDisplay() {
 // true를 반환하면 자동 진행을 멈춰야 함 - 안 그러면 설명을 볼 새도 없이 다음 수로 넘어가버림.
 function checkExplanation(ply) {
   const btn = document.getElementById("explain-btn");
+  const continueBtn = document.getElementById("continue-btn");
   const box = document.getElementById("explain-box");
   box.style.display = "none";
   box.textContent = "";
+  continueBtn.style.display = "none";
   const text = currentLine.comments && currentLine.comments[ply];
   if (text) {
     pendingExplanation = text;
@@ -139,9 +141,8 @@ function pickNextLine() {
 
   document.getElementById("next-btn").style.display = "none";
   document.getElementById("show-answer-btn").style.display = "none";
-  const explainBtnEl = document.getElementById("explain-btn");
-  explainBtnEl.style.display = "none";
-  explainBtnEl.textContent = "이 수 설명 보기";
+  document.getElementById("explain-btn").style.display = "none";
+  document.getElementById("continue-btn").style.display = "none";
   document.getElementById("explain-box").style.display = "none";
   pendingExplanation = null;
   updateLineNameDisplay();
@@ -403,21 +404,20 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("next-btn").addEventListener("click", pickNextLine);
   document.getElementById("show-answer-btn").addEventListener("click", revealAnswer);
 
+  // 서로 다른 버튼 두 개로 분리 - "설명 보기"를 눌러도 자동으로 진행되지 않고,
+  // 반드시 "계속하기"를 따로 눌러야만 다음 수로 넘어감
   document.getElementById("explain-btn").addEventListener("click", () => {
-    const btn = document.getElementById("explain-btn");
+    document.getElementById("explain-btn").style.display = "none";
     const box = document.getElementById("explain-box");
-    if (box.style.display === "none") {
-      // 1단계: 설명 보여주기 (자동으로 넘어가지 않고 사용자가 다 읽을 때까지 기다림)
-      box.textContent = pendingExplanation || "";
-      box.style.display = "block";
-      btn.textContent = "계속하기 →";
-    } else {
-      // 2단계: 다 읽었으면 버튼을 눌러야 다음 수로 진행
-      box.style.display = "none";
-      btn.style.display = "none";
-      btn.textContent = "이 수 설명 보기";
-      advance();
-    }
+    box.textContent = pendingExplanation || "";
+    box.style.display = "block";
+    document.getElementById("continue-btn").style.display = "inline-block";
+  });
+
+  document.getElementById("continue-btn").addEventListener("click", () => {
+    document.getElementById("continue-btn").style.display = "none";
+    document.getElementById("explain-box").style.display = "none";
+    advance();
   });
 
   const lineNameToggle = document.getElementById("linename-toggle");

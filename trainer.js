@@ -26,6 +26,76 @@ let showLineName = localStorage.getItem(LINENAME_KEY) !== "0"; // 기본 켜짐
 
 let pendingExplanation = null; // 현재 지점에 설명이 있으면 그 텍스트, 없으면 null
 
+// ---- 자주 틀리는 지점 추적 (개인화된 임시 메모) ----
+
+const MISTAKE_KEY = "openingTrainerMistakesV1";
+const MISTAKE_SHOW_THRESHOLD = 2;   // 이 이상 틀리면 메모 표시
+const MISTAKE_CLEAR_STREAK = 3;     // 이만큼 연속으로 맞히면 메모 삭제
+
+function loadMistakes() {
+  try {
+    return JSON.parse(localStorage.getItem(MISTAKE_KEY)) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveMistakes(m) {
+  localStorage.setItem(MISTAKE_KEY, JSON.stringify(m));
+}
+
+function mistakeKey(ply) {
+  return currentLine.id + ":" + ply;
+}
+
+// wrongSan이 null이면 "정답 보기로 포기"한 경우 (구체적으로 착각한 수가 없음)
+function recordWrongAttempt(ply, wrongSan) {
+  const m = loadMistakes();
+  const key = mistakeKey(ply);
+  const entry = m[key] || { wrongCounts: {}, totalWrong: 0, streak: 0 };
+  if (wrongSan) {
+    entry.wrongCounts[wrongSan] = (entry.wrongCounts[wrongSan] || 0) + 1;
+  }
+  entry.totalWrong++;
+  entry.streak = 0;
+  m[key] = entry;
+  saveMistakes(m);
+}
+
+function recordCorrectAttempt(ply) {
+  const m = loadMistakes();
+  const key = mistakeKey(ply);
+  const entry = m[key];
+  if (!entry) return;
+  entry.streak++;
+  if (entry.streak >= MISTAKE_CLEAR_STREAK) {
+    delete m[key];
+  }
+  saveMistakes(m);
+}
+
+// 해당 지점이 "자주 틀리는 지점"이면 안내 문구를, 아니면 null을 반환
+function getMistakeNote(ply) {
+  const m = loadMistakes();
+  const entry = m[mistakeKey(ply)];
+  if (!entry || entry.totalWrong < MISTAKE_SHOW_THRESHOLD || entry.streak >= MISTAKE_CLEAR_STREAK) {
+    return null;
+  }
+  const expected = currentLine.moves[ply - 1];
+  let topWrong = null;
+  let topCount = 0;
+  for (const san in entry.wrongCounts) {
+    if (entry.wrongCounts[san] > topCount) {
+      topWrong = san;
+      topCount = entry.wrongCounts[san];
+    }
+  }
+  if (topWrong) {
+    return "⚠️ 자주 틀리는 지점: \"" + topWrong + "\"(으)로 착각한 적이 " + topCount + "번 있어요. 정답은 \"" + expected + "\"예요.";
+  }
+  return "⚠️ 자주 헷갈리는 지점이에요 (" + entry.totalWrong + "번). 정답은 \"" + expected + "\"예요.";
+}
+
 function updateLineNameDisplay() {
   const el = document.getElementById("line-name");
   if (!currentLine) {
@@ -44,9 +114,13 @@ function checkExplanation(ply) {
   box.style.display = "none";
   box.textContent = "";
   continueBtn.style.display = "none";
-  const text = currentLine.comments && currentLine.comments[ply];
-  if (text) {
-    pendingExplanation = text;
+
+  const staticText = currentLine.comments && currentLine.comments[ply];
+  const mistakeNote = getMistakeNote(ply);
+  const combined = [mistakeNote, staticText].filter(Boolean).join("\n\n");
+
+  if (combined) {
+    pendingExplanation = combined;
     btn.style.display = "inline-block";
     return true;
   }
@@ -221,6 +295,7 @@ function tryUserMove(from, to, opts) {
   if (move.san !== expectedSan) {
     game.undo();
     mistakeMade = true;
+    recordWrongAttempt(moveIndex + 1, move.san);
     if (opts.syncBoard) board.position(game.fen());
 
     if (answerMode === "retry") {
@@ -244,6 +319,7 @@ function tryUserMove(from, to, opts) {
   }
 
   setMessage("정답!", "correct");
+  recordCorrectAttempt(moveIndex + 1);
   awaitingUserMove = false;
   document.getElementById("show-answer-btn").style.display = "none";
   moveIndex++;
@@ -258,6 +334,7 @@ function revealAnswer() {
   if (!awaitingUserMove) return;
   const expectedSan = currentLine.moves[moveIndex];
   mistakeMade = true;
+  recordWrongAttempt(moveIndex + 1, null);
   setMessage("정답: " + expectedSan, "wrong");
   awaitingUserMove = false;
   document.getElementById("show-answer-btn").style.display = "none";
@@ -443,6 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("reset-btn").addEventListener("click", () => {
     if (confirm("모든 학습 기록을 초기화할까요? 되돌릴 수 없어요.")) {
       localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(MISTAKE_KEY);
       renderStats();
     }
   });

@@ -435,6 +435,54 @@ function setMessage(text, kind) {
   el.className = kind ? "message-" + kind : "";
 }
 
+// ---- 백업 (내보내기 / 가져오기) ----
+
+const BACKUP_KEYS = [STORAGE_KEY, MISTAKE_KEY, ANSWER_MODE_KEY, LINENAME_KEY];
+
+function exportProgress() {
+  const backup = { version: 1, exportedAt: new Date().toISOString(), data: {} };
+  BACKUP_KEYS.forEach((key) => {
+    const value = localStorage.getItem(key);
+    if (value !== null) backup.data[key] = value;
+  });
+
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "opening-trainer-backup-" + new Date().toISOString().slice(0, 10) + ".json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importProgress(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    let parsed;
+    try {
+      parsed = JSON.parse(reader.result);
+    } catch (e) {
+      alert("파일을 읽을 수 없어요. 올바른 백업 파일인지 확인해주세요.");
+      return;
+    }
+    if (!parsed || typeof parsed.data !== "object") {
+      alert("올바른 백업 파일 형식이 아니에요.");
+      return;
+    }
+    if (!confirm("현재 학습 기록을 이 백업 파일 내용으로 덮어쓸까요? 되돌릴 수 없어요.")) return;
+
+    BACKUP_KEYS.forEach((key) => {
+      if (typeof parsed.data[key] === "string") {
+        localStorage.setItem(key, parsed.data[key]);
+      }
+    });
+    location.reload();
+  };
+  reader.readAsText(file);
+}
+
 // ---- 통계 패널 ----
 
 function formatDue(due) {
@@ -538,6 +586,14 @@ document.addEventListener("DOMContentLoaded", () => {
           answerMode === "retry" ? "inline-block" : "none";
       }
     });
+  });
+
+  document.getElementById("export-btn").addEventListener("click", exportProgress);
+
+  document.getElementById("import-input").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) importProgress(file);
+    e.target.value = "";
   });
 
   document.getElementById("reset-btn").addEventListener("click", () => {
